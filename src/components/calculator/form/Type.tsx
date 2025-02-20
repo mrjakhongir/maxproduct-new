@@ -1,8 +1,6 @@
 import { FormControl, FormField, FormItem } from "@/components/ui/form";
-import { FormItemProps, Types } from "@/types/area";
+import { FormItemProps } from "@/types/area";
 import { useEffect, useState } from "react";
-import { collection, getDocs } from "firebase/firestore";
-import { db } from "@/config/firebase";
 import {
   Select,
   SelectContent,
@@ -10,28 +8,21 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Loader } from "lucide-react";
 import FieldLabel from "./FieldLabel";
+import { getFeature } from "@/lib/utils";
 
 const Type: React.FC<FormItemProps> = ({ control }) => {
-  const [types, setTypes] = useState<Types[]>([]);
+  const [types, setTypes] = useState<string[]>([]);
 
   useEffect(() => {
-    async function getTypes() {
-      try {
-        const querySnapshot = await getDocs(collection(db, "types"));
-        const data = querySnapshot.docs
-          .map((doc) => ({
-            ...doc.data(),
-          }))
-          .sort((a, b) => a.id - b.id) as Types[];
-        setTypes(data);
-      } catch (err) {
-        console.log(err);
-      }
-    }
     getTypes();
   }, []);
+
+  async function getTypes() {
+    const data = await getFeature("types");
+    setTypes(data);
+  }
+
   return (
     <FormField
       control={control}
@@ -48,21 +39,11 @@ const Type: React.FC<FormItemProps> = ({ control }) => {
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  {types ? (
-                    types.map((type) => (
-                      <SelectItem
-                        key={type.id}
-                        value={type.name}
-                        className='md:text-lg'
-                      >
-                        {type.name}
-                      </SelectItem>
-                    ))
-                  ) : (
-                    <div className='h-10 flex items-center justify-center'>
-                      <Loader className='animate-spin' size={20} />
-                    </div>
-                  )}
+                  {types.map((type) => (
+                    <SelectItem key={type} value={type} className='md:text-lg'>
+                      {type}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
             </FormControl>

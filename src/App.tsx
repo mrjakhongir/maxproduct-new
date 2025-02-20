@@ -1,31 +1,36 @@
 import { Routes, Route } from "react-router-dom";
 import Calculator from "./pages/calculator/Calculator";
-import Dashboard from "./pages/dashboard";
 import Login from "./pages/auth/Login";
 import RootLayout from "./layouts/RootLayout";
 import DashboardLayout from "./layouts/DashboardLayout";
-import Features from "./pages/dashboard/Features";
+import Prices from "./pages/dashboard/Prices";
 import Offers from "./pages/dashboard/Offers";
 import { RootState } from "./redux/store";
 import { useSelector } from "react-redux";
 import RequireAuth from "./components/RequireAuth";
+import Features from "./pages/dashboard";
 
 function App() {
-  const { isLoggedIn } = useSelector((state: RootState) => state.auth);
+  const { user } = useSelector((state: RootState) => state.auth);
   return (
     <Routes>
       <Route path='/' element={<RootLayout />}>
-        <Route index element={<Calculator />} />
-        <Route path='login' element={<Login />} />
-
-        <Route element={<RequireAuth isLoggedIn={isLoggedIn} />}>
+        <Route element={<RequireAuth allowedRole={["admin"]} user={user} />}>
           <Route path='dashboard' element={<DashboardLayout />}>
-            <Route index element={<Dashboard />} />
-            <Route path='features' element={<Features />} />
+            <Route index element={<Features />} />
+            <Route path='prices' element={<Prices />} />
             <Route path='offers' element={<Offers />} />
           </Route>
         </Route>
+        <Route
+          element={
+            <RequireAuth allowedRole={["manager", "admin"]} user={user} />
+          }
+        >
+          <Route index element={<Calculator />} />
+        </Route>
       </Route>
+      <Route path='/login' element={<Login />} />
     </Routes>
   );
 }

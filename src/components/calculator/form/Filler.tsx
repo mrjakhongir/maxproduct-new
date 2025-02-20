@@ -1,8 +1,6 @@
 import { FormControl, FormField, FormItem } from "@/components/ui/form";
-import { ProductFiller, FormItemProps } from "@/types/area";
+import { FormItemProps } from "@/types/area";
 import { useEffect, useState } from "react";
-import { collection, getDocs } from "firebase/firestore";
-import { db } from "@/config/firebase";
 import {
   Select,
   SelectContent,
@@ -12,26 +10,18 @@ import {
 } from "@/components/ui/select";
 import { Loader } from "lucide-react";
 import FieldLabel from "./FieldLabel";
+import { getFeature } from "@/lib/utils";
 
 const Filler: React.FC<FormItemProps> = ({ control }) => {
-  const [filler, setFiller] = useState<ProductFiller[]>([]);
+  const [filler, setFiller] = useState<string[]>([]);
 
   useEffect(() => {
-    async function getFiller() {
-      try {
-        const querySnapshot = await getDocs(collection(db, "filler"));
-        const data = querySnapshot.docs
-          .map((doc) => ({
-            ...doc.data(),
-          }))
-          .sort((a, b) => a.id - b.id) as ProductFiller[];
-        setFiller(data);
-      } catch (err) {
-        console.log(err);
-      }
-    }
     getFiller();
   }, []);
+  async function getFiller() {
+    const data = await getFeature("fillers");
+    setFiller(data);
+  }
   return (
     <FormField
       control={control}
@@ -48,14 +38,14 @@ const Filler: React.FC<FormItemProps> = ({ control }) => {
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  {filler ? (
+                  {filler.length > 0 ? (
                     filler.map((filler) => (
                       <SelectItem
-                        key={filler.id}
-                        value={filler.name}
+                        key={filler}
+                        value={filler}
                         className='md:text-lg'
                       >
-                        {filler.name}
+                        {filler}
                       </SelectItem>
                     ))
                   ) : (

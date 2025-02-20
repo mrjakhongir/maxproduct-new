@@ -1,9 +1,9 @@
-import { Area } from "@/types/area";
+import { NewArea } from "@/types/area";
 import { createSlice } from "@reduxjs/toolkit";
 
 interface FormState {
   groupId: string;
-  forms: Area[];
+  forms: NewArea[];
   isLoading: boolean;
   isFetching: boolean;
 }
@@ -29,10 +29,15 @@ export const formSlice = createSlice({
       state.forms.unshift(action.payload);
     },
     deleteForm: (state, action) => {
-      state.forms = state.forms.filter((item) => item.id !== action.payload);
+      state.forms = state.forms.filter(
+        (item) => item.formId !== action.payload
+      );
     },
     initializeForms: (state, action) => {
       state.forms = action.payload;
+    },
+    clearForms: (state) => {
+      state.forms = [];
     },
   },
 });
@@ -44,4 +49,5 @@ export const {
   initializeForms,
   setLoading,
   setIsFetching,
+  clearForms,
 } = formSlice.actions;

@@ -1,7 +1,7 @@
-import { Loader } from "lucide-react";
 import HistoryItem from "./HistoryItem";
 import { RootState } from "@/redux/store";
 import { useSelector } from "react-redux";
+import ItemSkeleton from "../form/ItemSkeleton";
 
 const History = () => {
   const { forms, isFetching, isLoading } = useSelector(
@@ -10,13 +10,15 @@ const History = () => {
   return (
     <section className='flex-[1.5] overflow-y-scroll'>
       {isFetching ? (
-        <div className='flex items-center justify-center h-full'>
-          <Loader className='animate-spin mb-[250px]' size={40} />
-        </div>
+        <>
+          <ItemSkeleton />
+          <ItemSkeleton />
+          <ItemSkeleton />
+        </>
       ) : forms.length > 0 ? (
         <ul className={`flex flex-col gap-5 ${isLoading && "animate-pulse"}`}>
           {forms.map((form) => (
-            <HistoryItem key={form.id} data={form} />
+            <HistoryItem key={form.formId} item={form} />
           ))}
         </ul>
       ) : (

@@ -1,8 +1,6 @@
 import { FormControl, FormField, FormItem } from "@/components/ui/form";
-import { Thickness, FormItemProps } from "@/types/area";
+import { FormItemProps } from "@/types/area";
 import { useEffect, useState } from "react";
-import { collection, getDocs } from "firebase/firestore";
-import { db } from "@/config/firebase";
 import {
   Select,
   SelectContent,
@@ -12,26 +10,19 @@ import {
 } from "@/components/ui/select";
 import { Loader } from "lucide-react";
 import FieldLabel from "./FieldLabel";
+import { getFeature } from "@/lib/utils";
 
 const PanelThickness: React.FC<FormItemProps> = ({ control }) => {
-  const [thickness, setThickness] = useState<Thickness[]>([]);
+  const [thickness, setThickness] = useState<string[]>([]);
 
   useEffect(() => {
-    async function getThickness() {
-      try {
-        const querySnapshot = await getDocs(collection(db, "panelThickness"));
-        const data = querySnapshot.docs
-          .map((doc) => ({
-            ...doc.data(),
-          }))
-          .sort((a, b) => a.id - b.id) as Thickness[];
-        setThickness(data);
-      } catch (err) {
-        console.log(err);
-      }
-    }
-    getThickness();
+    getTypes();
   }, []);
+
+  async function getTypes() {
+    const data = await getFeature("panelThickness");
+    setThickness(data);
+  }
   return (
     <FormField
       control={control}
@@ -51,11 +42,11 @@ const PanelThickness: React.FC<FormItemProps> = ({ control }) => {
                   {thickness ? (
                     thickness.map((thickness) => (
                       <SelectItem
-                        key={thickness.id}
-                        value={thickness.name}
+                        key={thickness}
+                        value={thickness}
                         className='md:text-lg'
                       >
-                        {thickness.name}
+                        {thickness}
                       </SelectItem>
                     ))
                   ) : (

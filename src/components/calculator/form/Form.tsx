@@ -10,15 +10,19 @@ import LowerCoverThickness from "./LowerCoverThickness";
 import Filler from "./Filler";
 import { Card } from "@/components/ui/card";
 import { db } from "@/config/firebase";
-import { addDoc, collection } from "firebase/firestore";
+import { arrayUnion, doc, setDoc, updateDoc } from "firebase/firestore";
 import Actions from "./actions";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { addForm, setLoading } from "@/redux/slices/formSlice";
 import FieldLabel from "./FieldLabel";
+import { useSearchParams } from "react-router-dom";
+import { v4 as uuidv4 } from "uuid";
 
 export function ProductForm() {
-  const { groupId } = useSelector((state: RootState) => state.form);
+  const [searchParams] = useSearchParams();
+  const { groupId, forms } = useSelector((state: RootState) => state.form);
+  const { user } = useSelector((state: RootState) => state.auth);
   const dispatch = useDispatch();
 
   const form = useForm<Area>({
@@ -34,20 +38,30 @@ export function ProductForm() {
   });
 
   async function onSubmit(data: Area) {
+    const hasDoc = forms.length > 0;
+    const newForm = {
+      formId: uuidv4(),
+      ...data,
+    };
     try {
       dispatch(setLoading(true));
-      const docRef = collection(db, "forms");
-      await addDoc(docRef, {
-        groupId,
-        ...data,
-        createdAt: new Date(),
-      });
-      dispatch(addForm({ ...data, id: docRef.id }));
+      const docRef = doc(db, "forms", groupId);
+
+      if (hasDoc) {
+        await updateDoc(docRef, {
+          forms: arrayUnion(newForm),
+        });
+      } else {
+        await setDoc(docRef, {
+          userId: user?.uid,
+          forms: [newForm],
+          market: searchParams.get("market") || "Местный",
+        });
+      }
+      dispatch(addForm(newForm));
       dispatch(setLoading(false));
     } catch (error) {
       console.error("Error adding form", error);
-      dispatch(setLoading(false));
-    } finally {
       dispatch(setLoading(false));
     }
     localStorage.setItem("groupId", groupId);

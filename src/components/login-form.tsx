@@ -12,10 +12,11 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "@/config/firebase";
+import { auth, db } from "@/config/firebase";
 import { useDispatch } from "react-redux";
 import { SET_ACTIVE_USER } from "@/redux/slices/authSlice";
 import { useNavigate } from "react-router-dom";
+import { doc, getDoc } from "firebase/firestore";
 
 export function LoginForm({
   className,
@@ -44,12 +45,17 @@ export function LoginForm({
         credentials.password
       );
 
-      const user = result.user;
-      console.log(user.uid)
-      const token = await user.getIdToken();
-      dispatch(SET_ACTIVE_USER(token));
+      const uid = result.user.uid;
+      const userDoc = await getDoc(doc(db, "users", uid));
 
-      navigate("/dashboard");
+      if (userDoc.exists()) {
+        const newUser = {
+          ...userDoc.data(),
+        };
+        dispatch(SET_ACTIVE_USER(newUser));
+      }
+
+      navigate("/", { replace: true });
       setLoading(false);
     } catch (error) {
       console.log(error);
@@ -58,7 +64,6 @@ export function LoginForm({
       setLoading(false);
     }
   }
-
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>

@@ -9,12 +9,12 @@ export interface Area {
   filler: string;
   area: number;
   discount: number;
-  createdAt: Date;
+  price: string;
+  coverThickness: string;
 }
 
-export interface FormResponse extends Area {
-  id: string;
-  createdAt: Date;
+export interface NewArea extends Area {
+  formId: string;
 }
 
 export type FormItemProps = {
@@ -27,25 +27,33 @@ export type Managers = {
   phone: string;
 };
 
-export type Types = {
+export interface User {
+  uid: string;
+  fName: string;
+  email: string;
+  phone: string;
+  role: string;
+}
+
+export interface NewPriceForm {
+  id: string;
+  type: string;
+  panelThickness: string;
+  coverThickness: string;
+  filler: string;
+}
+
+export interface PriceResponse {
+  id: string;
+  type: string;
+  panelThickness: string;
+  coverThickness: string;
+  filler: string;
+  price: string;
+}
+
+export interface Feature {
   id: string;
   name: string;
-  value: string;
-};
-
-export type Thickness = {
-  id: string;
-  value: string;
-  name: string;
-};
-
-export type CoverThickness = {
-  id: string;
-  value: string;
-};
-
-export type ProductFiller = {
-  id: string;
-  value: string;
-  name: string;
-};
+  data: string[];
+}
