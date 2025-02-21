@@ -12,7 +12,7 @@ import { Loader } from "lucide-react";
 import FieldLabel from "../FieldLabel";
 import { getFeature } from "@/lib/utils";
 
-const Filler: React.FC<FormItemProps> = ({ control }) => {
+const Filler: React.FC<FormItemProps> = ({ control, panelThickness }) => {
   const [filler, setFiller] = useState<string[]>([]);
 
   useEffect(() => {
@@ -44,6 +44,10 @@ const Filler: React.FC<FormItemProps> = ({ control }) => {
                         key={filler}
                         value={filler}
                         className='md:text-lg'
+                        disabled={
+                          panelThickness !== "100 MM" &&
+                          filler === "Пенополиуретан"
+                        }
                       >
                         {filler}
                       </SelectItem>

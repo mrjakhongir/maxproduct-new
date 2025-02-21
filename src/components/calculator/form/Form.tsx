@@ -29,6 +29,7 @@ import LowerCoverThickness from "./fields/LowerCoverThickness";
 import Filler from "./fields/Filler";
 import Type from "./fields/Type";
 import Price from "./Price";
+import { calculatePrice } from "@/lib/utils";
 
 export function ProductForm() {
   const [searchParams] = useSearchParams();
@@ -36,6 +37,9 @@ export function ProductForm() {
   const [bottomPrice, setBottomPrice] = useState(0);
   const { groupId, forms } = useSelector((state: RootState) => state.form);
   const { user } = useSelector((state: RootState) => state.auth);
+  const { exchangeRate } = useSelector(
+    (state: RootState) => state.exchangeRate
+  );
   const dispatch = useDispatch();
 
   const form = useForm<Area>({
@@ -56,7 +60,8 @@ export function ProductForm() {
     const newForm = {
       formId: uuidv4(),
       ...data,
-      price: `${(topPrice + bottomPrice) / 2}`,
+      price: formattedEndPrice,
+      totalSum: formattedTotalPriceWithDiscount,
     };
 
     let newGroupId = "";
@@ -128,6 +133,15 @@ export function ProductForm() {
     setBottomPrice(bottomPrice);
   }
 
+  const { formattedEndPrice, formattedTotalPriceWithDiscount } = calculatePrice(
+    topPrice,
+    bottomPrice,
+    discount,
+    area,
+    searchParams.get("market") || "Местный",
+    exchangeRate
+  );
+
   return (
     <Card className='px-3 py-5 mt-3 shadow-lg'>
       <Form {...form}>
@@ -136,7 +150,7 @@ export function ProductForm() {
           <PanelThickness control={form.control} />
           <UpperCoverThickness control={form.control} />
           <LowerCoverThickness control={form.control} />
-          <Filler control={form.control} />
+          <Filler control={form.control} panelThickness={panelThickness} />
 
           <FormField
             control={form.control}

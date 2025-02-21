@@ -11,6 +11,7 @@ export interface Area {
   discount: number;
   price: string;
   coverThickness: string;
+  totalSum: string;
 }
 
 export interface NewArea extends Area {
@@ -19,6 +20,7 @@ export interface NewArea extends Area {
 
 export type FormItemProps = {
   control: Control<Area>;
+  panelThickness?: string;
 };
 
 export type Managers = {
@@ -56,4 +58,11 @@ export interface Feature {
   id: string;
   name: string;
   data: string[];
+}
+
+export interface FormsResponse {
+  id: string;
+  userId: string;
+  forms: NewArea[];
+  market: string;
 }

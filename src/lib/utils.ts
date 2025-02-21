@@ -63,3 +63,7 @@ export function calculatePrice(
   );
   return { formattedEndPrice, formattedTotalPriceWithDiscount };
 }
+
+export function formatTimestamp(timestamp: number): string {
+  return new Intl.DateTimeFormat("ru-RU").format(new Date(timestamp));
+}

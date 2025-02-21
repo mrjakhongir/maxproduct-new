@@ -64,7 +64,7 @@ const HistoryItem: React.FC<HistoryItemProps> = ({ item }) => {
           <ItemInfo label='Тип продукта:' value={item.type} />
           <ItemInfo label='Общий объём (м2):' value={String(item.area)} />
           <ItemInfo label='Скидка (%):' value={String(item.discount)} />
-          <ItemInfo label='Цена:' value={String(item.discount)} />
+          <ItemInfo label='Цена:' value={String(item.price)} />
         </ul>
         <ul className='md:w-1/2 md:pl-2'>
           <ItemInfo label='Наполнитель:' value={item.filler} />
@@ -88,7 +88,7 @@ const HistoryItem: React.FC<HistoryItemProps> = ({ item }) => {
       >
         <h3 className='flex-1 flex justify-between md:text-xl text-white'>
           <span>Общая стоимость:</span>
-          <span>USZ 0</span>
+          <span>{item.totalSum}</span>
         </h3>
         <div className='md:flex-1 text-right'>
           <TooltipProvider>
