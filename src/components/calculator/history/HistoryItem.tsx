@@ -32,24 +32,26 @@ const HistoryItem: React.FC<HistoryItemProps> = ({ item }) => {
       dispatch(deleteForm(id));
     }, 500);
 
-    const docRef = doc(db, "forms", groupId);
-    const docSnap = await getDoc(docRef);
+    if (groupId) {
+      const docRef = doc(db, "forms", groupId);
+      const docSnap = await getDoc(docRef);
+      const data = docSnap.data();
 
-    const data = docSnap.data();
-    const updatedForms = data?.forms.filter(
-      (form: NewArea) => form.formId !== id
-    );
+      const updatedForms = data?.forms.filter(
+        (form: NewArea) => form.formId !== id
+      );
 
-    if (updatedForms.length === 0) {
-      await setDoc(docRef, {
-        userId: user?.uid,
-        forms: [],
-        market: searchParams.get("market") || "Местный",
-      });
-    } else {
-      await updateDoc(docRef, {
-        forms: updatedForms,
-      });
+      if (updatedForms.length === 0) {
+        await setDoc(docRef, {
+          userId: user?.uid,
+          forms: [],
+          market: searchParams.get("market") || "Местный",
+        });
+      } else {
+        await updateDoc(docRef, {
+          forms: updatedForms,
+        });
+      }
     }
   }
   return (

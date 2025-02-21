@@ -1,4 +1,4 @@
-import FeaturesTable from "@/components/dashboard/features/featuresTable";
+import FeaturesTable from "@/components/dashboard/features/FeaturesTable";
 import Title from "@/components/dashboard/Title";
 import { MoveLeft } from "lucide-react";
 import { Link } from "react-router-dom";
