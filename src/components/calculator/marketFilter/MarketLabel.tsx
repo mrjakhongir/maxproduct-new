@@ -17,8 +17,10 @@ function MarketLabel({ src, market }: MarketLabelProps) {
   async function changeMarket() {
     setSearchParams({ market });
     dispatch(clearForms());
-    const docRef = doc(db, "forms", groupId);
-    await deleteDoc(docRef);
+    if (groupId) {
+      const docRef = doc(db, "forms", groupId);
+      await deleteDoc(docRef);
+    }
   }
   return (
     <button
@@ -26,8 +28,8 @@ function MarketLabel({ src, market }: MarketLabelProps) {
         market === "Местный" ? "bg-[#006bb0]" : "bg-primary"
       } ${
         searchParams.get("market") === market
-          ? "opacity-70 scale-95 shadow-sm cursor-default"
-          : "opacity-100 scale-100 shadow-xl cursor-pointer hover:opacity-90 "
+          ? "opacity-100 shadow-xl cursor-default"
+          : "opacity-70 shadow-sm cursor-pointer hover:opacity-90 "
       }`}
       onClick={changeMarket}
     >

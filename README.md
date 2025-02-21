@@ -1,3 +1,3 @@
-# Talaba Hub
+# Financial Calculator
 
 ## Deploy - [link](s)

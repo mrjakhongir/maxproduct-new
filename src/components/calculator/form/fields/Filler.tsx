@@ -8,28 +8,27 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import FieldLabel from "./FieldLabel";
+import { Loader } from "lucide-react";
+import FieldLabel from "../FieldLabel";
 import { getFeature } from "@/lib/utils";
 
-const Type: React.FC<FormItemProps> = ({ control }) => {
-  const [types, setTypes] = useState<string[]>([]);
+const Filler: React.FC<FormItemProps> = ({ control }) => {
+  const [filler, setFiller] = useState<string[]>([]);
 
   useEffect(() => {
-    getTypes();
+    getFiller();
   }, []);
-
-  async function getTypes() {
-    const data = await getFeature("types");
-    setTypes(data);
+  async function getFiller() {
+    const data = await getFeature("fillers");
+    setFiller(data);
   }
-
   return (
     <FormField
       control={control}
-      name='type'
+      name='filler'
       render={({ field }) => (
         <FormItem className='flex items-center gap-4'>
-          <FieldLabel content='Тип продукта:' />
+          <FieldLabel content='Наполнитель:' />
           <div className='flex-1'>
             <FormControl>
               <Select onValueChange={field.onChange}>
@@ -39,11 +38,21 @@ const Type: React.FC<FormItemProps> = ({ control }) => {
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  {types.map((type) => (
-                    <SelectItem key={type} value={type} className='md:text-lg'>
-                      {type}
-                    </SelectItem>
-                  ))}
+                  {filler.length > 0 ? (
+                    filler.map((filler) => (
+                      <SelectItem
+                        key={filler}
+                        value={filler}
+                        className='md:text-lg'
+                      >
+                        {filler}
+                      </SelectItem>
+                    ))
+                  ) : (
+                    <div className='h-10 flex items-center justify-center'>
+                      <Loader className='animate-spin' size={20} />
+                    </div>
+                  )}
                 </SelectContent>
               </Select>
             </FormControl>
@@ -54,4 +63,4 @@ const Type: React.FC<FormItemProps> = ({ control }) => {
   );
 };
 
-export default Type;
+export default Filler;

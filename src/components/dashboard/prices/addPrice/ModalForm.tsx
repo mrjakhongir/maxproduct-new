@@ -1,8 +1,8 @@
-import CoverThickness from "@/components/calculator/form/CoverThickness";
+import CoverThickness from "@/components/calculator/form/fields/CoverThickness";
 import FieldLabel from "@/components/calculator/form/FieldLabel";
-import Filler from "@/components/calculator/form/Filler";
-import PanelThickness from "@/components/calculator/form/PanelThickness";
-import Type from "@/components/calculator/form/Type";
+import Filler from "@/components/calculator/form/fields/Filler";
+import PanelThickness from "@/components/calculator/form/fields/PanelThickness";
+import Type from "@/components/calculator/form/fields/Type";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";

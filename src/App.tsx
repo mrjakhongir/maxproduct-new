@@ -9,6 +9,7 @@ import { RootState } from "./redux/store";
 import { useSelector } from "react-redux";
 import RequireAuth from "./components/RequireAuth";
 import Features from "./pages/dashboard";
+import History from "./pages/history/History";
 
 function App() {
   const { user } = useSelector((state: RootState) => state.auth);
@@ -28,6 +29,7 @@ function App() {
           }
         >
           <Route index element={<Calculator />} />
+          <Route path='history' element={<History />} />
         </Route>
       </Route>
       <Route path='/login' element={<Login />} />

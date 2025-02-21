@@ -8,27 +8,28 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Loader } from "lucide-react";
-import FieldLabel from "./FieldLabel";
+import FieldLabel from "../FieldLabel";
 import { getFeature } from "@/lib/utils";
 
-const Filler: React.FC<FormItemProps> = ({ control }) => {
-  const [filler, setFiller] = useState<string[]>([]);
+const Type: React.FC<FormItemProps> = ({ control }) => {
+  const [types, setTypes] = useState<string[]>([]);
 
   useEffect(() => {
-    getFiller();
+    getTypes();
   }, []);
-  async function getFiller() {
-    const data = await getFeature("fillers");
-    setFiller(data);
+
+  async function getTypes() {
+    const data = await getFeature("types");
+    setTypes(data);
   }
+
   return (
     <FormField
       control={control}
-      name='filler'
+      name='type'
       render={({ field }) => (
         <FormItem className='flex items-center gap-4'>
-          <FieldLabel content='Наполнитель:' />
+          <FieldLabel content='Тип продукта:' />
           <div className='flex-1'>
             <FormControl>
               <Select onValueChange={field.onChange}>
@@ -38,21 +39,11 @@ const Filler: React.FC<FormItemProps> = ({ control }) => {
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  {filler.length > 0 ? (
-                    filler.map((filler) => (
-                      <SelectItem
-                        key={filler}
-                        value={filler}
-                        className='md:text-lg'
-                      >
-                        {filler}
-                      </SelectItem>
-                    ))
-                  ) : (
-                    <div className='h-10 flex items-center justify-center'>
-                      <Loader className='animate-spin' size={20} />
-                    </div>
-                  )}
+                  {types.map((type) => (
+                    <SelectItem key={type} value={type} className='md:text-lg'>
+                      {type}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
             </FormControl>
@@ -63,4 +54,4 @@ const Filler: React.FC<FormItemProps> = ({ control }) => {
   );
 };
 
-export default Filler;
+export default Type;

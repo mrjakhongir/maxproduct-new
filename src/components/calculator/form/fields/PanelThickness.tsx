@@ -9,26 +9,27 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Loader } from "lucide-react";
-import FieldLabel from "./FieldLabel";
+import FieldLabel from "../FieldLabel";
 import { getFeature } from "@/lib/utils";
 
-const UpperCoverThickness: React.FC<FormItemProps> = ({ control }) => {
+const PanelThickness: React.FC<FormItemProps> = ({ control }) => {
   const [thickness, setThickness] = useState<string[]>([]);
+
   useEffect(() => {
     getTypes();
   }, []);
 
   async function getTypes() {
-    const data = await getFeature("coverThickness");
+    const data = await getFeature("panelThickness");
     setThickness(data);
   }
   return (
     <FormField
       control={control}
-      name='topThickness'
+      name='panelThickness'
       render={({ field }) => (
         <FormItem className='flex items-center gap-4'>
-          <FieldLabel content='Толщина верхнего металла:' />
+          <FieldLabel content='Толщина панели:' />
           <div className='flex-1'>
             <FormControl>
               <Select onValueChange={field.onChange}>
@@ -63,4 +64,4 @@ const UpperCoverThickness: React.FC<FormItemProps> = ({ control }) => {
   );
 };
 
-export default UpperCoverThickness;
+export default PanelThickness;

@@ -7,15 +7,21 @@ import { REMOVE_ACTIVE_USER } from "@/redux/slices/authSlice";
 import { auth } from "@/config/firebase";
 import { signOut } from "firebase/auth";
 import { LogOut } from "lucide-react";
+import { clearForms } from "@/redux/slices/formSlice";
+import { formatString } from "@/lib/utils";
 
 const Header = () => {
   const { user } = useSelector((state: RootState) => state.auth);
+  const { exchangeRate } = useSelector(
+    (state: RootState) => state.exchangeRate
+  );
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
   async function signOutUser() {
     await signOut(auth);
     dispatch(REMOVE_ACTIVE_USER());
+    dispatch(clearForms());
     navigate("/login");
   }
   return (
@@ -32,12 +38,15 @@ const Header = () => {
             {user?.role}
           </span>
           <span className='text-[11px] text-white'>{user?.phone}</span>
+          <span className='ml-auto text-[12px] text-white tracking-wide'>
+            <strong>1USD:</strong> {formatString(exchangeRate, "Местный")}
+          </span>
         </div>
         <div className='flex items-center justify-between py-2 px-3 rounded-lg bg-[rgb(0,102,176)]'>
           <h1 className='text-2xl text-white font-semibold'>Simple Steps</h1>
           <div className='flex gap-4'>
-            {user?.role === "admin" && (
-              <div>
+            <div>
+              {user?.role === "admin" && (
                 <Link to='/dashboard'>
                   <Button
                     variant='link'
@@ -48,21 +57,32 @@ const Header = () => {
                     Dashboard
                   </Button>
                 </Link>
-                <Link to='/'>
-                  <Button
-                    variant='link'
-                    className={`${
-                      location.pathname === "/" && "underline"
-                    } text-white`}
-                  >
-                    Calculator
-                  </Button>
-                </Link>
-              </div>
-            )}
+              )}
+              <Link to='/'>
+                <Button
+                  variant='link'
+                  className={`${
+                    location.pathname === "/" && "underline"
+                  } text-white`}
+                >
+                  Калькулятор
+                </Button>
+              </Link>
+              <Link to='/history'>
+                <Button
+                  variant='link'
+                  className={`${
+                    location.pathname === "/history" && "underline"
+                  } text-white`}
+                >
+                  История
+                </Button>
+              </Link>
+            </div>
+
             {user && (
               <Button onClick={signOutUser} variant='outline'>
-                <span>Logout</span>
+                <span>Выйти</span>
                 <LogOut />
               </Button>
             )}

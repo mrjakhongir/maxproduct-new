@@ -9,11 +9,12 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Loader } from "lucide-react";
-import FieldLabel from "./FieldLabel";
+import FieldLabel from "../FieldLabel";
 import { getFeature } from "@/lib/utils";
 
-const CoverThickness: React.FC<FormItemProps> = ({ control }) => {
+const LowerCoverThickness: React.FC<FormItemProps> = ({ control }) => {
   const [thickness, setThickness] = useState<string[]>([]);
+
   useEffect(() => {
     getTypes();
   }, []);
@@ -25,10 +26,10 @@ const CoverThickness: React.FC<FormItemProps> = ({ control }) => {
   return (
     <FormField
       control={control}
-      name='coverThickness'
+      name='bottomThickness'
       render={({ field }) => (
         <FormItem className='flex items-center gap-4'>
-          <FieldLabel content='Толщина металла:' />
+          <FieldLabel content='Толщина нижнего металла:' />
           <div className='flex-1'>
             <FormControl>
               <Select onValueChange={field.onChange}>
@@ -39,9 +40,9 @@ const CoverThickness: React.FC<FormItemProps> = ({ control }) => {
                 </FormControl>
                 <SelectContent>
                   {thickness ? (
-                    thickness.map((thickness) => (
+                    thickness.map((thickness, index) => (
                       <SelectItem
-                        key={thickness}
+                        key={index}
                         value={thickness}
                         className='md:text-lg'
                       >
@@ -63,4 +64,4 @@ const CoverThickness: React.FC<FormItemProps> = ({ control }) => {
   );
 };
 
-export default CoverThickness;
+export default LowerCoverThickness;

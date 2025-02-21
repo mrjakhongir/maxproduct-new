@@ -18,7 +18,7 @@ const links = [
 const DashboardSidebar = () => {
   const location = useLocation();
   return (
-    <aside className='flex-1 border py-4 px-2 rounded-lg'>
+    <aside className='flex-1 max-w-[280px] border py-4 px-2 rounded-lg'>
       <ul className='flex flex-col gap-1'>
         {links.map((link) => (
           <li key={link.name}>
