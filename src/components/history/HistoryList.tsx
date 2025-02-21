@@ -15,7 +15,7 @@ const HistoryList: React.FC<HistoryListProps> = ({ data }) => {
     <div className='max-w-xl mx-auto'>
       <Accordion type='single' collapsible className='w-full'>
         {data.map((feature, index) => (
-          <AccordionItem key={index} value={feature.userId}>
+          <AccordionItem key={index} value={feature.id}>
             <AccordionTrigger>
               {feature.id} - {formatTimestamp(+feature.id)}
             </AccordionTrigger>
