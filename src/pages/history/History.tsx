@@ -37,6 +37,7 @@ const History = () => {
   }
 
   useEffect(() => {
+    setHistory([]);
     getHistories();
     if (market == null) {
       setSearchParams({ market: "Местный" });

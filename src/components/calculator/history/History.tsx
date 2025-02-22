@@ -23,7 +23,7 @@ const History = () => {
         </ul>
       ) : (
         <h2 className='text-center text-2xl text-slate-800 font-semibold'>
-          No data found
+          Добавьте первую форму
         </h2>
       )}
     </section>

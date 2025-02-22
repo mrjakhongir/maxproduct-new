@@ -8,11 +8,12 @@ import { db } from "@/config/firebase";
 import { FormsResponse } from "@/types/area";
 import Container from "@/components/Container";
 import { Button } from "@/components/ui/button";
+import { useSearchParams } from "react-router-dom";
 
 const Preview = () => {
-  const { groupId } = useSelector((state: RootState) => state.form);
   const { user } = useSelector((state: RootState) => state.auth);
   const [forms, setForms] = useState<FormsResponse | null>(null);
+  const [searchParams] = useSearchParams();
 
   const pageTwoRef = useRef<HTMLDivElement>(null);
   const pageOneRef = useRef<HTMLDivElement>(null);
@@ -49,6 +50,7 @@ const Preview = () => {
   }
 
   useEffect(() => {
+    const groupId = searchParams.get("order");
     async function getForm() {
       if (groupId) {
         const docRef = doc(db, "forms", groupId);
@@ -65,7 +67,6 @@ const Preview = () => {
 
     getForm();
   }, []);
-
   return (
     <Container>
       <div className='my-5 flex px-3 sticky top-5'>

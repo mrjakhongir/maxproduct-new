@@ -75,7 +75,7 @@ export function ProductForm() {
     try {
       dispatch(setLoading(true));
       const docRef = doc(db, "forms", newGroupId);
-
+      dispatch(addForm(newForm));
       if (hasDoc) {
         await updateDoc(docRef, {
           forms: arrayUnion(newForm),
@@ -87,7 +87,7 @@ export function ProductForm() {
           market: searchParams.get("market") || "Местный",
         });
       }
-      dispatch(addForm(newForm));
+
       dispatch(setLoading(false));
     } catch (error) {
       console.error("Error adding form", error);
