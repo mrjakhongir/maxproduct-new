@@ -4,7 +4,7 @@ import { GoogleAuthProvider } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyB7J-OZhbQB3oY9a5YfSeOfZreWr6-LuKQ",
+  apiKey: import.meta.env.VITE_API_KEY,
   authDomain: "furniture-calculator-7e3a1.firebaseapp.com",
   projectId: "furniture-calculator-7e3a1",
   storageBucket: "furniture-calculator-7e3a1.firebasestorage.app",
