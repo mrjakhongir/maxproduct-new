@@ -79,7 +79,7 @@ export function LoginForm({
                 <Input
                   id='email'
                   type='email'
-                  placeholder='furniture@google.com'
+                  placeholder='nusratovjahongir@gmail.com'
                   required
                   name='email'
                   onChange={(e) =>
