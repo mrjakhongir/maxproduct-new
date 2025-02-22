@@ -68,16 +68,14 @@ export function LoginForm({
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
         <CardHeader>
-          <CardTitle className='text-2xl'>Login</CardTitle>
-          <CardDescription>
-            Enter your email below to login to your account
-          </CardDescription>
+          <CardTitle className='text-2xl'>Логин</CardTitle>
+          <CardDescription>Войдите в свой аккаунт</CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit}>
             <div className='flex flex-col gap-6 pb-4 relative'>
               <div className='grid gap-2'>
-                <Label htmlFor='email'>Email</Label>
+                <Label htmlFor='email'>Логин</Label>
                 <Input
                   id='email'
                   type='email'
@@ -92,7 +90,7 @@ export function LoginForm({
               </div>
               <div className='grid gap-2'>
                 <div className='flex items-center'>
-                  <Label htmlFor='password'>Password</Label>
+                  <Label htmlFor='password'>Пароль</Label>
                 </div>
                 <Input
                   id='password'
@@ -106,11 +104,11 @@ export function LoginForm({
                 />
               </div>
               <Button type='submit' className='w-full mt-1'>
-                {loading ? "Logging in..." : "Login"}
+                {loading ? "Загрузка..." : "Войти"}
               </Button>
               {error && (
                 <p className='absolute text-red-500 text-sm left-1/2 -translate-x-1/2 top-[98%]'>
-                  Wrong credentials
+                  Неправильный логин или пароль
                 </p>
               )}
             </div>
