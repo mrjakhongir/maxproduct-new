@@ -19,11 +19,7 @@
 
 ## Deploy - [link](https://maxproduct-new.netlify.app/)
 
-### Admin
-login: nusratovjahongir@gmail.com
-parol: Admin2025
 ### Manager
-
 login: nusratovjahongirbek@gmail.com
 parol: Admin2025
 
